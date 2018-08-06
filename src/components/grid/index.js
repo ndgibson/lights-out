@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Flex, { FlexItem } from 'mineral-ui/Flex';
-import LightButton from '../lightbutton';
+import Light from '../light';
 import { GRID_DIMENSION } from '../../constants';
 
 class Grid extends Component {
@@ -11,7 +11,7 @@ class Grid extends Component {
     for (let columnIndex = 0; columnIndex < GRID_DIMENSION; columnIndex++) {
       row.push(
         <FlexItem key={ columnIndex }>
-          <LightButton id={ rowIndex * GRID_DIMENSION + columnIndex }/>
+          <Light id={ rowIndex * GRID_DIMENSION + columnIndex }/>
         </FlexItem>
       );
     }

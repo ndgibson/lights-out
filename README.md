@@ -1,9 +1,13 @@
-# Merlin
+# Lights Out
 
-An implementation of the classic puzzle game better known as [Lights Out](https://en.wikipedia.org/wiki/Lights_Out_(game)) or [Merlin's Magic Square](https://en.wikipedia.org/wiki/Merlin_(game)).
+An implementation of the classic puzzle game better known as [Lights Out](https://en.wikipedia.org/wiki/Lights_Out_(game)).
 
 ## Stack
 
-- React
+- Mineral
 - MobX
+- React
 
+## Resources
+
+https://www.jaapsch.net/puzzles/lights.htm#quiet

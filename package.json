@@ -1,5 +1,5 @@
 {
-  "name": "merlin",
+  "name": "lights-out",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -7,6 +7,7 @@
     "emotion": "^9.2.6",
     "emotion-theming": "^9.2.6",
     "mineral-ui": "^0.40.0",
+    "mineral-ui-icons": "^0.4.0",
     "mobx": "^5.0.3",
     "mobx-react": "^5.2.3",
     "prop-types": "^15.6.2",

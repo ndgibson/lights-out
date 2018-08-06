@@ -1,20 +1,27 @@
-import { action, observable } from 'mobx';
-import { getNeighborIds } from '../utils';
+import { action, observable, toJS } from 'mobx';
+import * as Utils from '../utils';
 
 class Store {
-  @observable lightbuttons = {};
+  @observable board = {};
+  @observable originalBoard = {};
+  @observable pressCount = 0;
+  @observable solved = false;
 
-  @action clickLightButton (id) {
-      const newLightButtons = this.lightbuttons;
-      const neighborIds = getNeighborIds(id);
+  @action pressLight (id) {
+    this.board = Utils.pressLight(this.board, id);
+    this.pressCount++;
+    this.solved = Utils.isBoardSolved(this.board);
+  }
 
-      newLightButtons[id] = !newLightButtons[id];
-      neighborIds.forEach(neighborId => {
-        if (typeof neighborId !== 'undefined') {
-          newLightButtons[neighborId] = !newLightButtons[neighborId];
-        }
-      });
-      this.lightbuttons = newLightButtons;
+  @action newBoard () {
+    this.board = Utils.newBoard();
+    this.originalBoard = toJS(this.board);
+    this.pressCount = 0;
+  }
+
+  @action resetBoard () {
+    this.board = toJS(this.originalBoard);
+    this.pressCount = 0;
   }
 }
 
