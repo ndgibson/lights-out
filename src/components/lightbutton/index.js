@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
 import Button from 'mineral-ui/Button';
+import { createStyledComponent } from 'mineral-ui/styles';
 import PropTypes from 'prop-types';
 import { computed } from 'mobx';
 import { inject, observer } from 'mobx-react';
+
+const StyledButton = createStyledComponent(Button, {
+  '&:focus': {
+    'box-shadow': 'none',
+  },
+});
 
 @inject("store")
 @observer
@@ -24,10 +31,11 @@ class LightButton extends Component {
     const buttonProps = {
       onClick: this.onClick,
       primary: this.onOff,
+      size: 'jumbo',
     };
 
     return (
-      <Button { ...buttonProps }/>
+      <StyledButton { ...buttonProps }/>
     );
   }
 }

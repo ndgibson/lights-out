@@ -10,7 +10,7 @@ class Store {
 
       newLightButtons[id] = !newLightButtons[id];
       neighborIds.forEach(neighborId => {
-        if (neighborId) {
+        if (typeof neighborId !== 'undefined') {
           newLightButtons[neighborId] = !newLightButtons[neighborId];
         }
       });
