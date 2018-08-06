@@ -17,7 +17,7 @@ const getRightNeighbor = id => {
 };
 
 const getBottomNeighbor = id => {
-  if (id + GRID_DIMENSION < GRID_DIMENSION ^ 2) {
+  if (id + GRID_DIMENSION < Math.pow(GRID_DIMENSION, 2)) {
     return id + GRID_DIMENSION;
   }
 
@@ -46,16 +46,14 @@ export const pressLight = (board, id) => {
   const neighborLights = getNeighborLights(id);
   nextBoard[id] = !nextBoard[id];
   neighborLights.forEach(light => {
-    if (typeof light !== 'undefined') {
-      nextBoard[light] = !nextBoard[light];
-    }
+    nextBoard[light] = !nextBoard[light];
   });
   return nextBoard;
 };
 
 export const newBoard = () => {
   let board = {};
-  for (let i = 0; i < 25; i++) {
+  for (let i = 0; i < Math.pow(GRID_DIMENSION, 2); i++) {
     if (Math.random() >= 0.5) {
       board = pressLight(board, i);
     }
