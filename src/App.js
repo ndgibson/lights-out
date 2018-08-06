@@ -1,24 +1,24 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-
-//components
-import Emoji from './Emoji';
 import PlayField from './components/playfield';
+import { ThemeProvider } from 'mineral-ui/themes';
+import { Provider } from 'mobx-react';
+import Store from './store';
 
-//styles
 import './App.scss';
 import './App.less';
 import './App.styl';
 
-//modules
-import cssStyles from './First.module.css';
-import sassStyles from './Second.module.scss';
-import lessStyles from './Third.module.less';
-import stylusStyles from './Fourth.module.styl';
+const store = new Store();
 
 class App extends Component {
   render() {
-    return <PlayField />;
+    return (
+      <ThemeProvider>
+        <Provider store={ store }>
+          <PlayField />
+        </Provider>
+      </ThemeProvider>
+    );
   }
 }
 

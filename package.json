@@ -4,9 +4,15 @@
   "private": true,
   "dependencies": {
     "custom-react-scripts": "0.2.2",
+    "emotion": "^9.2.6",
+    "emotion-theming": "^9.2.6",
+    "mineral-ui": "^0.40.0",
+    "mobx": "^5.0.3",
     "mobx-react": "^5.2.3",
+    "prop-types": "^15.6.2",
     "react": "^16.4.2",
-    "react-dom": "^16.4.2"
+    "react-dom": "^16.4.2",
+    "react-emotion": "^9.2.6"
   },
   "scripts": {
     "start": "react-scripts start",
