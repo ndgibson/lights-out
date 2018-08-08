@@ -53,14 +53,18 @@ class Light extends Component {
   }
 
   render () {
+    const style = this.onOff ? {
+      boxShadow: '0px 0px 20px 5px #3272d9',
+    } : {
+      backgroundColor: 'transparent',
+    };
+
     const buttonProps = {
       iconStart: this.showSolutionIcon,
       onClick: this.onClick,
       primary: this.onOff,
       size: 'jumbo',
-      style: {
-        boxShadow: this.onOff ? '0px 0px 20px 5px #3272d9' : undefined,
-      }
+      style,
     };
 
     return (

@@ -13,7 +13,7 @@ class PlayField extends Component {
 
   render () {
     return (
-      <Flex direction="row">
+      <Flex direction="row" margin="auto">
         <Grid />
         <Controls />
       </Flex>

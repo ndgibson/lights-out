@@ -21,15 +21,30 @@ class App extends Component {
       },
     };
 
+    const videoProps = {
+      id: 'video_background',
+      preload: 'auto',
+      autoPlay: 'true',
+      loop: 'loop',
+      src: 'assets/video/loop.webm',
+      style: {
+        position: 'absolute',
+        zIndex: '-9000',
+      },
+    }
+
     return (
-      <ThemeProvider theme={ theme }>
-        <Provider store={ store }>
-          <Flex { ...flexProps }>
-            <PlayField />
-            <Mascot />
-          </Flex>
-        </Provider>
-      </ThemeProvider>
+      <React.Fragment>
+        <video { ...videoProps } />
+        <ThemeProvider theme={ theme }>
+          <Provider store={ store }>
+            <Flex { ...flexProps }>
+              <PlayField />
+              <Mascot />
+            </Flex>
+          </Provider>
+        </ThemeProvider>
+      </React.Fragment>
     );
   }
 }
