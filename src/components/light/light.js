@@ -5,6 +5,7 @@ import { computed } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import IconBlurCircular from 'mineral-ui-icons/IconBlurCircular';
 import { lightPressSfx } from '../../sfx';
+import { GRID_DIMENSION } from '../../constants';
 
 @inject('store')
 @observer
@@ -23,11 +24,31 @@ class Light extends Component {
       <IconBlurCircular /> :
       undefined;
   }
-  
+
+  constructor (props) {
+    super(props);
+    this.ref = React.createRef();
+  }
+
+  componentDidMount () {
+    if (this.props.id === (Math.floor(Math.pow(GRID_DIMENSION, 2) / 2))) {
+      this.moveMascot();
+    }
+  }
+
   onClick = () => {
     this.props.store.pressLight(this.props.id);
     lightPressSfx.play();
   };
+
+  moveMascot () {
+    const {
+      x,
+      y,
+    } = this.ref.current.getBoundingClientRect();
+
+    this.props.store.moveMascot({ x, y });
+  }
 
   render () {
     const buttonProps = {
@@ -38,7 +59,9 @@ class Light extends Component {
     };
 
     return (
-      <LightButton { ...buttonProps }/>
+      <div ref={ this.ref }>
+        <LightButton { ...buttonProps }/>
+      </div>
     );
   }
 }

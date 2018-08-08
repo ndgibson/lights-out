@@ -5,11 +5,17 @@ import { backgroundMusic } from '../sfx';
 class Store {
   @observable board = {};
   @observable originalBoard = {};
-  @observable pressCount = 0;
-  @observable showSolution = false;
-  @observable solved = false;
   @observable solution = {};
+  
   @observable playMusic = false;
+  @observable showSolution = false;
+  
+  @observable mascotPosition = { x: 0, y: 0 };
+  @observable mascotMoving = false;
+
+  @observable pressCount = 0;
+  @observable solved = false;
+  
 
   @action pressLight (id) {
     this.board = Utils.pressLight(this.board, id);
@@ -39,11 +45,16 @@ class Store {
 
   @action toggleMusic () {
     this.playMusic = !this.playMusic;
-    if (this.playMusic) {
-      backgroundMusic.play();
-    } else {
-      backgroundMusic.pause();
-    }
+    this.playMusic ? backgroundMusic.play() : backgroundMusic.pause();
+  }
+
+  @action moveMascot (coordinates) {
+    this.mascotPosition = coordinates;
+    this.mascotMoving = true;
+  }
+
+  @action mascotMoved () {
+    this.mascotMoving = false;
   }
 }
 

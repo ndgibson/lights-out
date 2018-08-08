@@ -4,6 +4,8 @@ import { ThemeProvider } from 'mineral-ui/themes';
 import { createTheme } from 'mineral-ui/themes';
 import { Provider } from 'mobx-react';
 import Store from './store';
+import Mascot from './components/mascot';
+import Flex from 'mineral-ui/Flex';
 
 const store = new Store();
 const theme = createTheme({
@@ -12,10 +14,20 @@ const theme = createTheme({
 
 class App extends Component {
   render() {
+    const flexProps = {
+      style: {
+        height: '100vh',
+        width: '100vh',
+      },
+    };
+
     return (
       <ThemeProvider theme={ theme }>
         <Provider store={ store }>
-          <PlayField />
+          <Flex { ...flexProps }>
+            <PlayField />
+            <Mascot />
+          </Flex>
         </Provider>
       </ThemeProvider>
     );

@@ -7,6 +7,7 @@ An implementation of the classic puzzle game better known as [Lights Out](https:
 - React 
 - MobX
 - Mineral
+- Pose
 - Howler
 
 ## Resources
