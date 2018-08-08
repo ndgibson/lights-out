@@ -5,15 +5,32 @@ import { createThemedComponent } from 'mineral-ui/themes';
 
 export const PressCountText = createThemedComponent(Text, ({ theme }) => ({
   Text_color: theme.color_theme,
-  Text_fontSize: theme.h3_fontSize,
+  Text_fontSize: theme.h1_fontSize,
 }));
 
-const SansFocusButton = createStyledComponent(Button, {
+const noFocusStyle = {
   '&:focus': {
     'box-shadow': 'none',
   },
+};
+
+const BigButton = createThemedComponent(Button, ({ theme }) => ({
+  Button_height_large: '5em',
+  Button_height_jumbo: '10em',
+}));
+
+export const OptionsButton = createStyledComponent(BigButton, {
+  'svg': {
+    height: '3em',
+    width: '3em',
+  },
+  ...noFocusStyle,
 });
 
-export const OptionsButton = SansFocusButton;
-
-export const LightButton = SansFocusButton;
+export const LightButton = createStyledComponent(BigButton, {
+  'svg': {
+    height: '3em',
+    width: '3em',
+  },
+  ...noFocusStyle,
+});
