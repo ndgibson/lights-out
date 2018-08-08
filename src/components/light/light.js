@@ -5,7 +5,8 @@ import { computed } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import IconBlurCircular from 'mineral-ui-icons/IconBlurCircular';
 import { playPress, playJump } from '../../sfx';
-import { GRID_DIMENSION } from '../../constants';
+import * as Utils from '../../utils';
+
 
 @inject('store')
 @observer
@@ -15,7 +16,7 @@ class Light extends Component {
     id: PropTypes.number,
   };
 
-  @computed get onOff () {
+  @computed get isLightOn () {
     return this.props.store.board[this.props.id];
   }
 
@@ -25,13 +26,17 @@ class Light extends Component {
       undefined;
   }
 
+  @computed get isCurrentLight () {
+    return this.props.store.currentLight === this.props.id;
+  }
+
   constructor (props) {
     super(props);
     this.ref = React.createRef();
   }
 
   componentDidMount () {
-    if (this.props.id === (Math.floor(Math.pow(GRID_DIMENSION, 2) / 2))) {
+    if (this.props.id === Utils.middleLight()) {
       this.moveMascot();
     }
   }
@@ -52,19 +57,31 @@ class Light extends Component {
     this.props.store.moveMascot({ x, y });
   }
 
-  render () {
-    const style = this.onOff ? {
-      boxShadow: '0px 0px 20px 5px #3272d9',
-    } : {
+  getStyle () {
+    let style = {
       backgroundColor: 'transparent',
     };
 
+    if (this.isCurrentLight) {
+      return style;
+    }
+    else if (this.isLightOn) { // neighbor
+      style = {
+        boxShadow: '0px 0px 20px 5px #3272d9',
+      }
+    }
+
+    return style;
+
+  }
+
+  render () {
     const buttonProps = {
       iconStart: this.showSolutionIcon,
       onClick: this.onClick,
-      primary: this.onOff,
+      primary: this.isLightOn,
       size: 'jumbo',
-      style,
+      style: this.getStyle(),
     };
 
     return (

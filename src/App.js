@@ -25,11 +25,17 @@ class App extends Component {
       id: 'video_background',
       preload: 'auto',
       autoPlay: 'true',
+      playsInline: 'true',
       loop: 'loop',
       src: 'assets/video/loop.webm',
       style: {
         position: 'absolute',
         zIndex: '-9000',
+        minWidth: '100%',
+        minHeight: '100%',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)', 
       },
     }
 

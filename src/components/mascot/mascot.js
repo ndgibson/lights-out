@@ -62,6 +62,7 @@ class Mascot extends Component {
         height: '7em',
         marginLeft: '1.5em',
         marginTop: '1em',
+        pointerEvents: 'none',
         width: '7em',
       },
       onPoseComplete: () => {

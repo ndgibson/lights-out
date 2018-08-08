@@ -17,6 +17,7 @@ const noFocusStyle = {
 const BigButton = createThemedComponent(Button, ({ theme }) => ({
   Button_height_large: '5em',
   Button_height_jumbo: '10em',
+  Button_borderColor: theme.color_theme,
 }));
 
 export const OptionsButton = createStyledComponent(BigButton, {

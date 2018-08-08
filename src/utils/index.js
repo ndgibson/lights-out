@@ -82,10 +82,17 @@ export const getDirection = (current, next) => {
   let direction;
   const deltaX = Math.abs(next.x - current.x);
   const deltaY = Math.abs(next.y - current.y);
+  if (deltaX === 0 && deltaY === 0) {
+    return 'down';
+  }
   if (deltaX > deltaY) {
     direction = next.x > current.x ? 'right' : 'left';
   } else {
     direction = next.y > current.y ? 'down' : 'up';
   }
   return direction;
+}
+
+export const middleLight = () => {
+  return Math.floor((Math.pow(GRID_DIMENSION, 2) / 2));
 }

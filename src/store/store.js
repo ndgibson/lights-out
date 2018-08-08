@@ -16,10 +16,11 @@ class Store {
 
   @observable pressCount = 0;
   @observable solved = false;
+  @observable currentLight = Utils.middleLight();
   
-
   @action pressLight (id) {
     this.board = Utils.pressLight(this.board, id);
+    this.currentLight = id;
     this.pressCount++;
     this.solved = Utils.isBoardSolved(this.board);
     if (this.solved) {
