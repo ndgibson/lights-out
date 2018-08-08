@@ -37,6 +37,7 @@ class Light extends Component {
   }
 
   onClick = () => {
+    this.moveMascot();
     this.props.store.pressLight(this.props.id);
     lightPressSfx.play();
   };
