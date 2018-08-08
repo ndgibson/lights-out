@@ -4,6 +4,7 @@ import { inject, observer } from 'mobx-react';
 import { OptionsButton, PressCountText } from '../primitives';
 import IconReplay from 'mineral-ui-icons/IconReplay';
 import IconFiberNew from 'mineral-ui-icons/IconFiberNew';
+import Flex, { FlexItem } from 'mineral-ui/Flex';
 
 @inject('store')
 @observer
@@ -39,15 +40,28 @@ class PlayField extends Component {
     const pressCountTextProps = {
       children: this.props.store.pressCount,
       fontWeight: 'extraBold',
+      style: {
+        marginTop: '.1em',
+      }
     };
 
+    const optionsFlexProps = {
+      direction: "column",
+      style: {
+        alignItems: 'center',
+        marginTop: '1em',
+      },
+    }
+
     return (
-      <React.Fragment>
+      <Flex direction="row">
         <Grid />
-        <OptionsButton { ...newBoardButtonProps } />
-        <OptionsButton { ...resetBoardButtonProps } />
-        <PressCountText { ...pressCountTextProps } />
-      </React.Fragment>
+        <Flex { ...optionsFlexProps }>
+          <OptionsButton { ...newBoardButtonProps } />
+          <OptionsButton { ...resetBoardButtonProps } />
+          <PressCountText { ...pressCountTextProps } />
+        </Flex>
+      </Flex>
     );
   }
 }

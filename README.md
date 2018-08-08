@@ -4,9 +4,10 @@ An implementation of the classic puzzle game better known as [Lights Out](https:
 
 ## Stack
 
-- Mineral
+- React 
 - MobX
-- React
+- Mineral
+- Howler
 
 ## Resources
 

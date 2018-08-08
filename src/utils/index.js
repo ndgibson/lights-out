@@ -53,12 +53,17 @@ export const pressLight = (board, id) => {
 
 export const newBoard = () => {
   let board = {};
-  for (let i = 0; i < Math.pow(GRID_DIMENSION, 2); i++) {
+  let solution = {};
+  for (let id = 0; id < Math.pow(GRID_DIMENSION, 2); id++) {
     if (Math.random() >= 0.5) {
-      board = pressLight(board, i);
+      board = pressLight(board, id);
+      solution[id] = true;
     }
   }
-  return board;
+  return { 
+    board,
+    solution,
+  };
 };
 
 export const isBoardSolved = board => {
