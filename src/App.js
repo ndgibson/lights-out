@@ -9,7 +9,7 @@ import Flex from 'mineral-ui/Flex';
 
 const store = new Store();
 const theme = createTheme({
-  colors: { theme: 'purple' },
+  colors: { theme: 'blue' },
 });
 
 class App extends Component {
@@ -17,7 +17,7 @@ class App extends Component {
     const flexProps = {
       style: {
         height: '100vh',
-        width: '100vh',
+        width: '100vw',
       },
     };
 

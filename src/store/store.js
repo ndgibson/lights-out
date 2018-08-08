@@ -1,6 +1,6 @@
 import { action, observable, toJS } from 'mobx';
 import * as Utils from '../utils';
-import { backgroundMusic } from '../sfx';
+import { playBGM, pauseBGM, playComplete } from '../sfx';
 
 class Store {
   @observable board = {};
@@ -11,6 +11,7 @@ class Store {
   @observable showSolution = false;
   
   @observable mascotPosition = { x: 0, y: 0 };
+  @observable mascotDirection = 'down';
   @observable mascotMoving = false;
 
   @observable pressCount = 0;
@@ -21,6 +22,9 @@ class Store {
     this.board = Utils.pressLight(this.board, id);
     this.pressCount++;
     this.solved = Utils.isBoardSolved(this.board);
+    if (this.solved) {
+      playComplete();
+    }
   }
 
   @action newBoard () {
@@ -31,11 +35,13 @@ class Store {
     this.board = board;
     this.originalBoard = toJS(this.board);
     this.solution = solution;
+    this.solved = false;
     this.pressCount = 0;
   }
 
   @action resetBoard () {
     this.board = toJS(this.originalBoard);
+    this.solved = false;
     this.pressCount = 0;
   }
 
@@ -45,10 +51,11 @@ class Store {
 
   @action toggleMusic () {
     this.playMusic = !this.playMusic;
-    this.playMusic ? backgroundMusic.play() : backgroundMusic.pause();
+    this.playMusic ? playBGM() : pauseBGM();
   }
 
   @action moveMascot (coordinates) {
+    this.mascotDirection = Utils.getDirection(this.mascotPosition, coordinates);
     this.mascotPosition = coordinates;
     this.mascotMoving = true;
   }

@@ -77,3 +77,15 @@ export const isBoardSolved = board => {
 
   return result;
 }
+
+export const getDirection = (current, next) => {
+  let direction;
+  const deltaX = Math.abs(next.x - current.x);
+  const deltaY = Math.abs(next.y - current.y);
+  if (deltaX > deltaY) {
+    direction = next.x > current.x ? 'right' : 'left';
+  } else {
+    direction = next.y > current.y ? 'down' : 'up';
+  }
+  return direction;
+}

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { computed } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import IconBlurCircular from 'mineral-ui-icons/IconBlurCircular';
-import { lightPressSfx } from '../../sfx';
+import { playPress, playJump } from '../../sfx';
 import { GRID_DIMENSION } from '../../constants';
 
 @inject('store')
@@ -39,7 +39,8 @@ class Light extends Component {
   onClick = () => {
     this.moveMascot();
     this.props.store.pressLight(this.props.id);
-    lightPressSfx.play();
+    playPress();
+    playJump();
   };
 
   moveMascot () {
@@ -57,6 +58,9 @@ class Light extends Component {
       onClick: this.onClick,
       primary: this.onOff,
       size: 'jumbo',
+      style: {
+        boxShadow: this.onOff ? '0px 0px 20px 5px #3272d9' : undefined,
+      }
     };
 
     return (
