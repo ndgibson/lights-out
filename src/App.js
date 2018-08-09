@@ -10,6 +10,9 @@ import Flex from 'mineral-ui/Flex';
 const store = new Store();
 const theme = createTheme({
   colors: { theme: 'blue' },
+  overrides: {
+    color_disabled: 'transparent',
+  },
 });
 
 class App extends Component {

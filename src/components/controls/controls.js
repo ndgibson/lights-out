@@ -6,6 +6,7 @@ import IconReplay from 'mineral-ui-icons/IconReplay';
 import IconShuffle from 'mineral-ui-icons/IconShuffle';
 import IconLightbulbOutline from 'mineral-ui-icons/IconLightbulbOutline';
 import IconMusicNote from 'mineral-ui-icons/IconMusicNote';
+import IconExtension from 'mineral-ui-icons/IconExtension';
 
 @inject('store')
 @observer
@@ -27,41 +28,53 @@ export default class Controls extends Component {
     this.props.store.toggleSolution();
   }
 
+  onTogglePuzzleModeClick = () => {
+    this.props.store.togglePuzzleMode();
+  }
+
+  getPressCountText = () => {
+    const pressCount = this.props.store.pressCount;
+    if (this.props.store.puzzleMode) {
+      return `${pressCount}/15`;
+    }
+    return pressCount;
+  }
+
   render () {
     const newBoardButtonProps = {
-      circular: true,
       iconStart: <IconShuffle />,
-      minimal: true,
       onClick: this.onNewBoardClick,
     };
 
     const resetBoardButtonProps = {
-      circular: true,
       iconStart: <IconReplay />,
-      minimal: true,
       onClick: this.onResetBoardClick,
     };
 
     const toggleSolutionButtonProps = {
-      circular: true,
+      disabled: this.props.store.puzzleMode,
       iconStart: <IconLightbulbOutline />,
-      minimal: true,
       onClick: this.onToggleSolutionClick,
     };
 
     const toggleMusicButtonProps = {
-      circular: true,
       iconStart: <IconMusicNote />,
-      minimal: true,
       onClick: this.onToggleMusicClick,
     };
 
+    const togglePuzzleModeProps = {
+      iconStart: <IconExtension />,
+      onClick: this.onTogglePuzzleModeClick,
+    }
+
     const pressCountTextProps = {
-      children: this.props.store.pressCount,
+      children: this.getPressCountText(),
       fontWeight: 'extraBold',
       noMargins: true,
       style: {
         marginTop: '.3em',
+        color: this.props.store.puzzleMode ? 'white' : undefined,
+        filter: this.props.store.puzzleMode ? 'drop-shadow(white 0px 0px 10px)' : undefined,
       }
     };
 
@@ -70,15 +83,17 @@ export default class Controls extends Component {
       style: {
         alignItems: 'center',
         marginTop: '1em',
+        width: '7em',
       },
     }
 
     return (
       <Flex { ...optionsFlexProps }>
-        <OptionsButton { ...newBoardButtonProps } />
-        <OptionsButton { ...resetBoardButtonProps } />
-        <OptionsButton { ...toggleSolutionButtonProps } />
-        <OptionsButton { ...toggleMusicButtonProps } />
+        { OptionsButton(false)({ ...newBoardButtonProps }) }
+        { OptionsButton(false)({ ...resetBoardButtonProps }) }
+        { OptionsButton(this.props.store.showSolution)({ ...toggleSolutionButtonProps }) }
+        { OptionsButton(this.props.store.playMusic)({ ...toggleMusicButtonProps }) }
+        { OptionsButton(this.props.store.puzzleMode)({ ...togglePuzzleModeProps }) }
         <PressCountText { ...pressCountTextProps } />
       </Flex>
     )

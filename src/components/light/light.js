@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { computed } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import IconBlurCircular from 'mineral-ui-icons/IconBlurCircular';
-import { playPress, playJump } from '../../sfx';
 import * as Utils from '../../utils';
 
 
@@ -30,6 +29,10 @@ class Light extends Component {
     return this.props.store.currentLight === this.props.id;
   }
 
+  @computed get isIllegalLight () {
+    return this.props.store.puzzleMode && this.props.store.visitedLights[this.props.id];
+  }
+
   constructor (props) {
     super(props);
     this.ref = React.createRef();
@@ -37,24 +40,22 @@ class Light extends Component {
 
   componentDidMount () {
     if (this.props.id === Utils.middleLight()) {
-      this.moveMascot();
+      this.props.store.initializeMascot(this.getCoordinates());
     }
   }
 
   onClick = () => {
-    this.moveMascot();
-    this.props.store.pressLight(this.props.id);
-    playPress();
-    playJump();
+    
+    this.props.store.onLightPress(this.props.id, this.getCoordinates());
   };
 
-  moveMascot () {
+  getCoordinates = () => {
     const {
       x,
       y,
     } = this.ref.current.getBoundingClientRect();
 
-    this.props.store.moveMascot({ x, y });
+    return { x, y };
   }
 
   getStyle () {

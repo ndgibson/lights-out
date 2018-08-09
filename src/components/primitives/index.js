@@ -12,6 +12,9 @@ const noFocusStyle = {
   '&:focus': {
     'box-shadow': 'none',
   },
+  '&:hover': {
+    'background-color': 'transparent',
+  }
 };
 
 const BigButton = createThemedComponent(Button, ({ theme }) => ({
@@ -20,12 +23,19 @@ const BigButton = createThemedComponent(Button, ({ theme }) => ({
   Button_borderColor: theme.color_theme,
 }));
 
-export const OptionsButton = createStyledComponent(BigButton, {
+export const OptionsButton = (active = true) => createStyledComponent(BigButton, {
   'svg': {
+    fill: active ? 'white' : undefined,
+    filter: active ? 'drop-shadow(white 0px 0px 10px)' : undefined,
     height: '3em',
     width: '3em',
   },
   ...noFocusStyle,
+}, {
+  withProps: {
+    circular: true,
+    minimal: true,
+  },
 });
 
 export const LightButton = createStyledComponent(BigButton, {
