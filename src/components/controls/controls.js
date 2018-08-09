@@ -88,8 +88,8 @@ export default class Controls extends Component {
       noMargins: true,
       style: {
         marginTop: '.3em',
-        color: this.props.store.puzzleMode ? 'white' : undefined,
-        filter: this.props.store.puzzleMode ? 'drop-shadow(white 0px 0px 10px)' : undefined,
+        color: this.props.store.puzzleMode ? this.props.store.pressCount < Object.keys(this.props.store.solution).length ? 'white' : 'red' : undefined,
+        filter: this.props.store.puzzleMode ? this.props.store.pressCount < Object.keys(this.props.store.solution).length ? 'drop-shadow(white 0px 0px 10px)' : 'drop-shadow(red 0px 0px 10px)' : undefined,
       }
     };
 

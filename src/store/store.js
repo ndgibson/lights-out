@@ -1,6 +1,6 @@
 import { action, observable, toJS } from 'mobx';
 import * as Utils from '../utils';
-import { playBGM, pauseBGM, playComplete, playPress, playJump } from '../sfx';
+import { playBGM, pauseBGM, playComplete, playPress, playJump, playError } from '../sfx';
 import { GRID_DIMENSION } from '../constants';
 
 class Store {
@@ -143,15 +143,21 @@ class Store {
   }
 
   isIllegalMove = (id) => {
+    let illegal = false;
+
     if (this.puzzleMode && this.visitedLights[id]) {
-      return true;
+      illegal = true;
     }
 
-    if (this.puzzleMode && this.pressCount === 15) {
-      return true;
+    if (this.puzzleMode && this.pressCount === Object.keys(this.solution).length) {
+      illegal = true;
     }
 
-    return false;
+    if (illegal) {
+      playError();
+    }
+
+    return illegal;
   };
 
   @action onLightPress (id, coordinates) {

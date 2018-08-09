@@ -19,6 +19,14 @@ export const playJump = () => {
   jumpSfx.play();
 };
 
+const errorSfx = new Howl({
+  src: 'assets/sfx/error.mp3',
+});
+
+export const playError = () => {
+  errorSfx.play();
+};
+
 const completeSfx = new Howl({
   src: 'assets/sfx/complete.mp3',
   volume: 0.5,
