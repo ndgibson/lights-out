@@ -7,6 +7,7 @@ import IconShuffle from 'mineral-ui-icons/IconShuffle';
 import IconLightbulbOutline from 'mineral-ui-icons/IconLightbulbOutline';
 import IconMusicNote from 'mineral-ui-icons/IconMusicNote';
 import IconExtension from 'mineral-ui-icons/IconExtension';
+import IconSchool from 'mineral-ui-icons/IconSchool';
 
 @inject('store')
 @observer
@@ -32,6 +33,10 @@ export default class Controls extends Component {
     this.props.store.togglePuzzleMode();
   }
 
+  onTogglePresetModeClick = () => {
+    this.props.store.togglePresetMode();
+  }
+
   getPressCountText = () => {
     const pressCount = this.props.store.pressCount;
     if (this.props.store.puzzleMode) {
@@ -41,14 +46,19 @@ export default class Controls extends Component {
   }
 
   render () {
-    const newBoardButtonProps = {
-      iconStart: <IconShuffle />,
-      onClick: this.onNewBoardClick,
-    };
+    const togglePresetModeProps = {
+      iconStart: <IconSchool />,
+      onClick: this.onTogglePresetModeClick,
+    }
 
     const resetBoardButtonProps = {
       iconStart: <IconReplay />,
       onClick: this.onResetBoardClick,
+    };
+
+    const newBoardButtonProps = {
+      iconStart: <IconShuffle />,
+      onClick: this.onNewBoardClick,
     };
 
     const toggleSolutionButtonProps = {
@@ -89,8 +99,9 @@ export default class Controls extends Component {
 
     return (
       <Flex { ...optionsFlexProps }>
-        { OptionsButton(false)({ ...newBoardButtonProps }) }
+        { OptionsButton(this.props.store.presetMode)({ ...togglePresetModeProps }) }
         { OptionsButton(false)({ ...resetBoardButtonProps }) }
+        { OptionsButton(false)({ ...newBoardButtonProps }) }
         { OptionsButton(this.props.store.showSolution)({ ...toggleSolutionButtonProps }) }
         { OptionsButton(this.props.store.playMusic)({ ...toggleMusicButtonProps }) }
         { OptionsButton(this.props.store.puzzleMode)({ ...togglePuzzleModeProps }) }

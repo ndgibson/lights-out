@@ -5,7 +5,7 @@ const getTopNeighbor = id => {
     return id - GRID_DIMENSION;
   }
   
-  return undefined;
+  return -1;
 };
 
 const getRightNeighbor = id => {
@@ -13,7 +13,7 @@ const getRightNeighbor = id => {
     return id + 1;
   }
 
-  return undefined;
+  return -1;
 };
 
 const getBottomNeighbor = id => {
@@ -21,7 +21,7 @@ const getBottomNeighbor = id => {
     return id + GRID_DIMENSION;
   }
 
-  return undefined;
+  return -1;
 };
 
 const getLeftNeighbor = id => {
@@ -29,7 +29,7 @@ const getLeftNeighbor = id => {
     return id - 1;
   }
 
-  return undefined;
+  return -1;
 };
 
 const getNeighborLights = id => {
@@ -46,7 +46,9 @@ export const pressLight = (board, id) => {
   const neighborLights = getNeighborLights(id);
   nextBoard[id] = !nextBoard[id];
   neighborLights.forEach(light => {
-    nextBoard[light] = !nextBoard[light];
+    if (light > -1) {
+      nextBoard[light] = !nextBoard[light];
+    }
   });
   return nextBoard;
 };

@@ -1,8 +1,10 @@
 import { action, observable, toJS } from 'mobx';
 import * as Utils from '../utils';
 import { playBGM, pauseBGM, playComplete, playPress, playJump } from '../sfx';
+import { GRID_DIMENSION } from '../constants';
 
 class Store {
+  @observable presetBoards = '';
   @observable board = {};
   @observable originalBoard = {};
   @observable solution = {};
@@ -11,6 +13,8 @@ class Store {
   @observable showSolution = false;
   
   @observable puzzleMode = false;
+  @observable presetMode = true;
+  @observable presetBoardNumber = 1;
   @observable visitedLights = {};
   
   @observable mascotPosition = { x: 0, y: 0 };
@@ -20,7 +24,7 @@ class Store {
   @observable pressCount = 0;
   @observable solved = false;
   @observable currentLight = Utils.middleLight();
-  
+
   @action updateBoard (id) {
     playPress();
     this.board = Utils.pressLight(this.board, id);
@@ -29,21 +33,61 @@ class Store {
     this.solved = Utils.isBoardSolved(this.board);
     this.visitedLights[id] = true;
     if (this.solved) {
+      const that = this;
       playComplete();
+      setTimeout(() => {
+        that.newBoard();
+      }, 2000);
+      this.presetBoardNumber++;
     }
   }
 
-  @action newBoard () {
-    const {
-      board,
-      solution,
-    } = Utils.newBoard();
+  @action loadBoardFromText (text) {
+    const lines = text.split(/\r?\n/);
+    const startLine = (this.presetBoardNumber - 1) * 5;
+    const endLine = startLine + 5;
+    const board = {};
+    const solution = {};
+
+    for (let line = startLine; line < endLine; line++) {
+      for (let char = 0; char < lines[line].length; char++) {
+        if (char < 5) {
+          if (lines[line].charAt(char) === 'X') {
+            board[((line % 5) * GRID_DIMENSION) + char] = true;
+          }
+        } else {
+          if (lines[line].charAt(char) === 'O') {
+            solution[((line % 5) * GRID_DIMENSION) + (char - 5)] = true;
+          }
+        }
+      }
+    }
+
     this.board = board;
     this.visitedLights = {};
     this.originalBoard = toJS(this.board);
     this.solution = solution;
     this.solved = false;
     this.pressCount = 0;
+  }
+
+  @action newBoard () {
+    if (!this.presetMode) {
+      const {
+        board,
+        solution,
+      } = Utils.newBoard(this.presetMode ? this.presetBoardNumber : undefined);
+      this.board = board;
+      this.visitedLights = {};
+      this.originalBoard = toJS(this.board);
+      this.solution = solution;
+      this.solved = false;
+      this.pressCount = 0;
+    } else {
+      fetch('assets/data/boards.txt')
+        .then(response => response.text())
+        .then(text => this.loadBoardFromText(text));
+    }
   }
 
   @action resetBoard () {
@@ -69,6 +113,14 @@ class Store {
     if (this.pressCount > 0) {
       this.newBoard();
     }
+  }
+
+  @action togglePresetMode () {
+    this.presetMode = !this.presetMode;
+  }
+
+  @action setPresetBoards (boards) {
+    this.presetBoards = boards;
   }
 
   isIllegalMove = (id) => {
