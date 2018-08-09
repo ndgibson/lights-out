@@ -66,13 +66,20 @@ class Store {
 
   @action togglePuzzleMode () {
     this.puzzleMode = !this.puzzleMode;
-    this.newBoard();
+    if (this.pressCount > 0) {
+      this.newBoard();
+    }
   }
 
   isIllegalMove = (id) => {
     if (this.puzzleMode && this.visitedLights[id]) {
       return true;
     }
+
+    if (this.puzzleMode && this.pressCount === 15) {
+      return true;
+    }
+
     return false;
   };
 

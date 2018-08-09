@@ -45,7 +45,6 @@ class Light extends Component {
   }
 
   onClick = () => {
-    
     this.props.store.onLightPress(this.props.id, this.getCoordinates());
   };
 
@@ -59,21 +58,35 @@ class Light extends Component {
   }
 
   getStyle () {
-    let style = {
-      backgroundColor: 'transparent',
-    };
+    const style = {};
 
-    if (this.isCurrentLight) {
-      return style;
+    if (this.isCurrentLight && !this.isLightOn) { // active tile
+      style.backgroundColor = 'transparent';
     }
-    else if (this.isLightOn) { // neighbor
-      style = {
-        boxShadow: '0px 0px 20px 5px #3272d9',
-      }
+
+    if (this.isCurrentLight && this.isLightOn) { // active tile, zeroth move
+      style.boxShadow = '0px 0px 20px 5px #3272d9';
+    }
+
+    if (!this.isCurrentLight && this.isLightOn) { // inactive but on
+      style.boxShadow = '0px 0px 20px 5px #3272d9';
+    }
+
+    if (!this.isCurrentLight && !this.isLightOn) { //inactive but off
+      style.backgroundColor = 'transparent';
+    }
+
+    if (this.isIllegalLight && this.isLightOn ) { // illegal but on
+      style.borderColor = 'transparent';
+      style.backgroundColor = 'rgba(50, 114, 217, 0.3)';
+      style.boxShadow = '0px 0px 20px 5px #3272d9';
+    }
+
+    if (this.isIllegalLight && !this.isLightOn ) { // illegal but off
+      style.borderColor = 'transparent';
     }
 
     return style;
-
   }
 
   render () {

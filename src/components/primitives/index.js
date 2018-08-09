@@ -12,6 +12,9 @@ const noFocusStyle = {
   '&:focus': {
     'box-shadow': 'none',
   },
+};
+
+const noHoverStyle = {
   '&:hover': {
     'background-color': 'transparent',
   }
@@ -31,6 +34,7 @@ export const OptionsButton = (active = true) => createStyledComponent(BigButton,
     width: '3em',
   },
   ...noFocusStyle,
+  ...noHoverStyle,
 }, {
   withProps: {
     circular: true,
@@ -40,8 +44,13 @@ export const OptionsButton = (active = true) => createStyledComponent(BigButton,
 
 export const LightButton = createStyledComponent(BigButton, {
   'svg': {
+    fill: 'white',
+    filter: 'drop-shadow(white 0px 0px 10px)',
     height: '3em',
     width: '3em',
+  },
+  '&:hover': {
+    'background-color': '#3272d9',
   },
   ...noFocusStyle,
 });
