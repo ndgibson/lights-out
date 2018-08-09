@@ -14,6 +14,7 @@ class Store {
   
   @observable puzzleMode = false;
   @observable presetMode = true;
+  @observable randomMode = false;
   @observable presetBoardNumber = 1;
   @observable visitedLights = {};
   
@@ -117,6 +118,24 @@ class Store {
 
   @action togglePresetMode () {
     this.presetMode = !this.presetMode;
+    if (this.presetMode) {
+      this.randomMode = false;
+      this.newBoard();
+    }
+    if (this.pressCount > 0) {
+      this.newBoard();
+    }
+  }
+
+  @action toggleRandomMode () {
+    this.randomMode = !this.randomMode;
+    if (this.randomMode) {
+      this.presetMode = false;
+      this.newBoard();
+    }
+    if (this.pressCount > 0) {
+      this.newBoard();
+    }
   }
 
   @action setPresetBoards (boards) {

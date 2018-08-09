@@ -42,6 +42,12 @@ export const OptionsButton = (active = true) => createStyledComponent(BigButton,
   },
 });
 
+export const SpacerButton = createStyledComponent(BigButton, {
+  visibility: 'hidden',
+  ...noFocusStyle,
+  ...noHoverStyle,
+});
+
 export const LightButton = createStyledComponent(BigButton, {
   'svg': {
     fill: 'white',

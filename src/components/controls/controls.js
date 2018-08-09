@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Flex from 'mineral-ui/Flex';
-import { OptionsButton, PressCountText } from '../primitives';
+import { OptionsButton, SpacerButton, PressCountText } from '../primitives';
 import { inject, observer } from 'mobx-react';
 import IconReplay from 'mineral-ui-icons/IconReplay';
 import IconShuffle from 'mineral-ui-icons/IconShuffle';
@@ -8,6 +8,7 @@ import IconLightbulbOutline from 'mineral-ui-icons/IconLightbulbOutline';
 import IconMusicNote from 'mineral-ui-icons/IconMusicNote';
 import IconExtension from 'mineral-ui-icons/IconExtension';
 import IconSchool from 'mineral-ui-icons/IconSchool';
+import IconDoNotDisturbAlt from 'mineral-ui-icons/IconDoNotDisturbAlt';
 
 @inject('store')
 @observer
@@ -17,8 +18,8 @@ export default class Controls extends Component {
     this.props.store.toggleMusic();
   }
 
-  onNewBoardClick = () => {
-    this.props.store.newBoard();
+  onRandomModeClick = () => {
+    this.props.store.toggleRandomMode();
   }
 
   onResetBoardClick = () => {
@@ -39,8 +40,9 @@ export default class Controls extends Component {
 
   getPressCountText = () => {
     const pressCount = this.props.store.pressCount;
+    const solution = this.props.store.solution;
     if (this.props.store.puzzleMode) {
-      return `${pressCount}/15`;
+      return `${pressCount}/${Object.keys(solution).length}`;
     }
     return pressCount;
   }
@@ -56,15 +58,18 @@ export default class Controls extends Component {
       onClick: this.onResetBoardClick,
     };
 
-    const newBoardButtonProps = {
+    const randomModeButtonProps = {
       iconStart: <IconShuffle />,
-      onClick: this.onNewBoardClick,
+      onClick: this.onRandomModeClick,
     };
 
     const toggleSolutionButtonProps = {
-      disabled: this.props.store.puzzleMode,
       iconStart: <IconLightbulbOutline />,
       onClick: this.onToggleSolutionClick,
+    };
+
+    const noSolutionButtonProps = {
+      iconStart: <IconDoNotDisturbAlt />,
     };
 
     const toggleMusicButtonProps = {
@@ -94,18 +99,25 @@ export default class Controls extends Component {
         alignItems: 'center',
         marginTop: '1em',
         width: '7em',
+        paddingTop: '2.5em',
       },
     }
 
     return (
       <Flex { ...optionsFlexProps }>
-        { OptionsButton(this.props.store.presetMode)({ ...togglePresetModeProps }) }
         { OptionsButton(false)({ ...resetBoardButtonProps }) }
-        { OptionsButton(false)({ ...newBoardButtonProps }) }
-        { OptionsButton(this.props.store.showSolution)({ ...toggleSolutionButtonProps }) }
-        { OptionsButton(this.props.store.playMusic)({ ...toggleMusicButtonProps }) }
+        { this.props.store.puzzleMode ?
+            OptionsButton()({ ...noSolutionButtonProps }) :
+            OptionsButton(this.props.store.showSolution)({ ...toggleSolutionButtonProps })
+        }
+        <SpacerButton />
+        { OptionsButton(this.props.store.presetMode)({ ...togglePresetModeProps }) }
+        { OptionsButton(this.props.store.randomMode)({ ...randomModeButtonProps }) }
         { OptionsButton(this.props.store.puzzleMode)({ ...togglePuzzleModeProps }) }
+        <SpacerButton />
         <PressCountText { ...pressCountTextProps } />
+        <SpacerButton />
+        { OptionsButton(this.props.store.playMusic)({ ...toggleMusicButtonProps }) }
       </Flex>
     )
   }
