@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { computed } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import IconBlurCircular from 'mineral-ui-icons/IconBlurCircular';
+import IconClose from 'mineral-ui-icons/IconClose';
 import * as Utils from '../../utils';
 
 
@@ -60,30 +61,12 @@ class Light extends Component {
   getStyle () {
     const style = {};
 
-    if (this.isCurrentLight && !this.isLightOn) { // active tile
+    if (!this.isLightOn) {
       style.backgroundColor = 'transparent';
     }
 
-    if (this.isCurrentLight && this.isLightOn) { // active tile, zeroth move
+    if (this.isLightOn) {
       style.boxShadow = '0px 0px 20px 5px #3272d9';
-    }
-
-    if (!this.isCurrentLight && this.isLightOn) { // inactive but on
-      style.boxShadow = '0px 0px 20px 5px #3272d9';
-    }
-
-    if (!this.isCurrentLight && !this.isLightOn) { //inactive but off
-      style.backgroundColor = 'transparent';
-    }
-
-    if (this.isIllegalLight && this.isLightOn ) { // illegal but on
-      style.borderColor = 'transparent';
-      style.backgroundColor = 'rgba(50, 114, 217, 0.3)';
-      style.boxShadow = '0px 0px 20px 5px #3272d9';
-    }
-
-    if (this.isIllegalLight && !this.isLightOn ) { // illegal but off
-      style.borderColor = 'transparent';
     }
 
     return style;
@@ -91,7 +74,7 @@ class Light extends Component {
 
   render () {
     const buttonProps = {
-      iconStart: this.showSolutionIcon,
+      iconStart: this.isIllegalLight ? <IconClose /> : this.showSolutionIcon,
       onClick: this.onClick,
       primary: this.isLightOn,
       size: 'jumbo',

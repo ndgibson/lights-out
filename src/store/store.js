@@ -112,11 +112,14 @@ class Store {
   @action togglePuzzleMode () {
     this.puzzleMode = !this.puzzleMode;
     if (this.pressCount > 0) {
-      this.newBoard();
+      this.resetBoard();
     }
   }
 
   @action togglePresetMode () {
+    if (this.presetMode) {
+      return;
+    }
     this.presetMode = !this.presetMode;
     if (this.presetMode) {
       this.randomMode = false;
@@ -128,6 +131,9 @@ class Store {
   }
 
   @action toggleRandomMode () {
+    if (this.randomMode) {
+      return;
+    }
     this.randomMode = !this.randomMode;
     if (this.randomMode) {
       this.presetMode = false;

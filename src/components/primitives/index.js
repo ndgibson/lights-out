@@ -1,5 +1,7 @@
 import Button from 'mineral-ui/Button';
 import Text from 'mineral-ui/Text';
+import React from 'react';
+import Tooltip from 'mineral-ui/Tooltip';
 import { createStyledComponent } from 'mineral-ui/styles';
 import { createThemedComponent } from 'mineral-ui/themes';
 
@@ -41,6 +43,19 @@ export const OptionsButton = (active = true) => createStyledComponent(BigButton,
     minimal: true,
   },
 });
+
+export const withTooltip = (component, content) => {
+  const tooltipProps = {
+    content,
+    placement: 'right',
+  }
+
+  return (
+    <Tooltip { ...tooltipProps }>
+      { component }
+    </Tooltip>
+  );
+} 
 
 export const SpacerButton = createStyledComponent(BigButton, {
   visibility: 'hidden',

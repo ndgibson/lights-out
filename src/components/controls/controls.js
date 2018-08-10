@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Flex from 'mineral-ui/Flex';
-import { OptionsButton, SpacerButton, PressCountText } from '../primitives';
+import { OptionsButton, SpacerButton, PressCountText, withTooltip } from '../primitives';
 import { inject, observer } from 'mobx-react';
 import IconReplay from 'mineral-ui-icons/IconReplay';
 import IconShuffle from 'mineral-ui-icons/IconShuffle';
@@ -9,6 +9,15 @@ import IconMusicNote from 'mineral-ui-icons/IconMusicNote';
 import IconExtension from 'mineral-ui-icons/IconExtension';
 import IconSchool from 'mineral-ui-icons/IconSchool';
 import IconDoNotDisturbAlt from 'mineral-ui-icons/IconDoNotDisturbAlt';
+
+const RESTART_TOOLTIP = 'Reset the board!';
+const SOLUTION_TOOLIP = 'Show a solution!';
+const NO_SOLUTION_TOOLIP = 'Solutions locked in Puzzle Mode!';
+const PRESET_TOOLTIP = 'School mode! 100 pre-made boards!';
+const RANDOM_TOOLTIP = 'Random mode! Always solvable!';
+const PUZZLE_TOOLTIP = 'Puzzle mode! Limited moves! No back tracking! Works with School or Random boards!';
+const COUNT_TOOLTIP = 'Move count! Move limit, if any!';
+const MUSIC_TOOLTIP = 'Toggle music!';
 
 @inject('store')
 @observer
@@ -105,19 +114,19 @@ export default class Controls extends Component {
 
     return (
       <Flex { ...optionsFlexProps }>
-        { OptionsButton(false)({ ...resetBoardButtonProps }) }
+        { withTooltip(OptionsButton(false)({ ...resetBoardButtonProps }), RESTART_TOOLTIP) }
         { this.props.store.puzzleMode ?
-            OptionsButton()({ ...noSolutionButtonProps }) :
-            OptionsButton(this.props.store.showSolution)({ ...toggleSolutionButtonProps })
+            withTooltip(OptionsButton()({ ...noSolutionButtonProps }), NO_SOLUTION_TOOLIP) :
+            withTooltip(OptionsButton(this.props.store.showSolution)({ ...toggleSolutionButtonProps }), SOLUTION_TOOLIP)
         }
         <SpacerButton />
-        { OptionsButton(this.props.store.presetMode)({ ...togglePresetModeProps }) }
-        { OptionsButton(this.props.store.randomMode)({ ...randomModeButtonProps }) }
-        { OptionsButton(this.props.store.puzzleMode)({ ...togglePuzzleModeProps }) }
+        { withTooltip(OptionsButton(this.props.store.presetMode)({ ...togglePresetModeProps }), PRESET_TOOLTIP) }
+        { withTooltip(OptionsButton(this.props.store.randomMode)({ ...randomModeButtonProps }), RANDOM_TOOLTIP) }
+        { withTooltip(OptionsButton(this.props.store.puzzleMode)({ ...togglePuzzleModeProps }), PUZZLE_TOOLTIP) }
         <SpacerButton />
-        <PressCountText { ...pressCountTextProps } />
+        { withTooltip(<PressCountText { ...pressCountTextProps } />, COUNT_TOOLTIP )}
         <SpacerButton />
-        { OptionsButton(this.props.store.playMusic)({ ...toggleMusicButtonProps }) }
+        { withTooltip(OptionsButton(this.props.store.playMusic)({ ...toggleMusicButtonProps }), MUSIC_TOOLTIP) }
       </Flex>
     )
   }

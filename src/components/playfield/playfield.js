@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import BoardPicker from '../boardPicker';
 import Grid from '../grid';
 import Controls from '../controls';
 import { inject } from 'mobx-react';
@@ -14,6 +15,7 @@ class PlayField extends Component {
   render () {
     return (
       <Flex direction="row" margin="auto">
+        <BoardPicker />
         <Grid />
         <Controls />
       </Flex>
