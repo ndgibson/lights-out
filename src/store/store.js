@@ -40,10 +40,16 @@ class Store {
         that.newBoard();
       }, 2000);
       this.presetBoardNumber++;
+      if (this.presetBoardNumber > 100) {
+        this.presetBoardNumber = 100;
+      }
     }
   }
 
   @action loadBoardFromText (text) {
+    if (this.presetBoardNumber > 100 || this.presetBoardNumber < 1) {
+      return;
+    }
     const lines = text.split(/\r?\n/);
     const startLine = (this.presetBoardNumber - 1) * 5;
     const endLine = startLine + 5;
@@ -73,6 +79,7 @@ class Store {
   }
 
   @action newBoard () {
+    this.showSolution = false;
     if (!this.presetMode) {
       const {
         board,
@@ -185,6 +192,11 @@ class Store {
     this.mascotDirection = Utils.getDirection(this.mascotPosition, coordinates);
     this.mascotPosition = coordinates;
     this.mascotMoving = true;
+  }
+
+  @action changePresetBoardNumber (number) {
+    this.presetBoardNumber = number;
+    this.newBoard();
   }
 }
 

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import Flex from 'mineral-ui/Flex';
+import Flex, { FlexItem } from 'mineral-ui/Flex';
 import { OptionsButton, SpacerButton, PressCountText, withTooltip } from '../primitives';
 import { inject, observer } from 'mobx-react';
+import BoardPicker from '../boardPicker';
 import IconReplay from 'mineral-ui-icons/IconReplay';
 import IconShuffle from 'mineral-ui-icons/IconShuffle';
 import IconLightbulbOutline from 'mineral-ui-icons/IconLightbulbOutline';
@@ -13,10 +14,11 @@ import IconDoNotDisturbAlt from 'mineral-ui-icons/IconDoNotDisturbAlt';
 const RESTART_TOOLTIP = 'Reset the board!';
 const SOLUTION_TOOLIP = 'Show a solution!';
 const NO_SOLUTION_TOOLIP = 'Solutions locked in Puzzle Mode!';
-const PRESET_TOOLTIP = 'School mode! 100 pre-made boards!';
+const PRESET_TOOLTIP = 'Curated mode! 100 boards! Enter 1 - 100 to jump to that Board!';
 const RANDOM_TOOLTIP = 'Random mode! Always solvable!';
-const PUZZLE_TOOLTIP = 'Puzzle mode! Limited moves! No back tracking! Works with School or Random boards!';
-const COUNT_TOOLTIP = 'Move count! Move limit, if any!';
+const PUZZLE_TOOLTIP = 'Puzzle mode! Limited moves! No back tracking! Works with Curated or Random boards!';
+const COUNT_TOOLTIP = 'Move count!';
+const COUNT_LIMIT_TOOLTIP = 'Move count and move limit for this Puzzle!';
 const MUSIC_TOOLTIP = 'Toggle music!';
 
 @inject('store')
@@ -97,6 +99,7 @@ export default class Controls extends Component {
       noMargins: true,
       style: {
         marginTop: '.3em',
+        marginLeft: this.props.store.puzzleMode ? '.3em' : '.9em',
         color: this.props.store.puzzleMode ? this.props.store.pressCount < Object.keys(this.props.store.solution).length ? 'white' : 'red' : undefined,
         filter: this.props.store.puzzleMode ? this.props.store.pressCount < Object.keys(this.props.store.solution).length ? 'drop-shadow(white 0px 0px 10px)' : 'drop-shadow(red 0px 0px 10px)' : undefined,
       }
@@ -105,11 +108,16 @@ export default class Controls extends Component {
     const optionsFlexProps = {
       direction: "column",
       style: {
-        alignItems: 'center',
+        alignItems: 'flex-start',
         marginTop: '1em',
         width: '7em',
         paddingTop: '2.5em',
       },
+    }
+
+    const presetModeFlexProps = {
+      direction: "row",
+      alignItems: "center",
     }
 
     return (
@@ -120,11 +128,14 @@ export default class Controls extends Component {
             withTooltip(OptionsButton(this.props.store.showSolution)({ ...toggleSolutionButtonProps }), SOLUTION_TOOLIP)
         }
         <SpacerButton />
-        { withTooltip(OptionsButton(this.props.store.presetMode)({ ...togglePresetModeProps }), PRESET_TOOLTIP) }
+        <Flex { ...presetModeFlexProps }>
+          { withTooltip(OptionsButton(this.props.store.presetMode)({ ...togglePresetModeProps }), PRESET_TOOLTIP) }
+          { this.props.store.presetMode ? <BoardPicker /> : <FlexItem /> }
+        </Flex>
         { withTooltip(OptionsButton(this.props.store.randomMode)({ ...randomModeButtonProps }), RANDOM_TOOLTIP) }
         { withTooltip(OptionsButton(this.props.store.puzzleMode)({ ...togglePuzzleModeProps }), PUZZLE_TOOLTIP) }
         <SpacerButton />
-        { withTooltip(<PressCountText { ...pressCountTextProps } />, COUNT_TOOLTIP )}
+        { withTooltip(<PressCountText { ...pressCountTextProps } />, this.props.store.puzzleMode ? COUNT_LIMIT_TOOLTIP : COUNT_TOOLTIP )}
         <SpacerButton />
         { withTooltip(OptionsButton(this.props.store.playMusic)({ ...toggleMusicButtonProps }), MUSIC_TOOLTIP) }
       </Flex>

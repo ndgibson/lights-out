@@ -30,6 +30,7 @@ class App extends Component {
       autoPlay: 'true',
       playsInline: 'true',
       loop: 'loop',
+      muted: 'true',
       src: 'assets/video/loop.webm',
       style: {
         position: 'absolute',
